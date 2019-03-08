@@ -10,12 +10,15 @@ go install
 ## Usage
 
 ```bash
-# Example usage
-stalk query "<query>" --stack, -s <stack>
+# Print help
+stalk
 
-# for example
-stalk query "Can I eat pi?" -s math
+# Query interface relies on 'verbs' and 'adjectives'
+stalk <verb> <adjective> --stack, -s <stack>
+
+# Example usage
+stalk query top "Can I eat pi?" -s math
 
 # defaults to searching entire site
-stalk query "How tall is obi-wan kenobi?"
+stalk query new "How tall is obi-wan kenobi?"
 ```
