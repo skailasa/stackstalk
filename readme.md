@@ -17,7 +17,7 @@ stalk
 stalk <verb> <adjective> --stack, -s <stack>
 
 # Example usage
-stalk query top "Can I eat pi?" -s math
+stalk query relevant "Can I eat pi?" -s math
 
 # defaults to searching entire site
 stalk query new "How tall is obi-wan kenobi?"
