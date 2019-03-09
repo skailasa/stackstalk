@@ -11,24 +11,15 @@ func query(verb, adjective, query, stack string) {
 	if query != "" {
 
 		if adjective != "" {
-			c := Client{
-				Host:     "",
-				BasePath: "",
-				Protocol: "",
-				Model:    Model{
-					verb,
-					adjective,
-					query,
-					stack,
-				},
-			}
+
+			c := StackExchangeClient
+			c.Model.Verb = verb
+			c.Model.Adjective = adjective
+			c.Model.Stack = stack
+			c.Model.Query = query
 
 			c.GetRequest()
 
-			fmt.Printf(
-				"Searching %s for the %s query, matching `%s` \n",
-				stack, adjective, query,
-			)
 		} else {
 			fmt.Println("must select query adjective!")
 		}
@@ -42,7 +33,6 @@ func subCommandFactory(name string) cli.Command {
 		return cli.Command{
 			Name: name,
 			Action: func(c *cli.Context) error {
-				fmt.Printf("Returning %s result", name)
 				query(
 					"query",
 					name,
@@ -104,10 +94,10 @@ func main() {
 				return nil
 			},
 			Subcommands: []cli.Command {
-				subCommandFactory("top"),
+				subCommandFactory("relevant"),
 				subCommandFactory("new"),
-				subCommandFactory("old"),
-				subCommandFactory("wildcard"),
+				subCommandFactory("active"),
+				subCommandFactory("popular"),
 			},
 		},
 	}

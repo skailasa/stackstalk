@@ -7,7 +7,7 @@ cd stalk
 go install
 ```
 
-## Usage
+## *Usage*
 
 ```bash
 # Print help
