@@ -30,27 +30,26 @@ func query(verb, adjective, query, stack string) {
 }
 
 func subCommandFactory(name string) cli.Command {
-		return cli.Command{
-			Name: name,
-			Action: func(c *cli.Context) error {
-				query(
-					"query",
-					name,
-					c.Args().Get(0),
-					c.String("stack"),
-				)
-				return nil
+	return cli.Command{
+		Name: name,
+		Action: func(c *cli.Context) error {
+			query(
+				"query",
+				name,
+				c.Args().Get(0),
+				c.String("stack"),
+			)
+			return nil
+		},
+		Flags: []cli.Flag{
+			cli.StringFlag{
+				Name:  "stack, s",
+				Value: "everywhere",
+				Usage: "Select a `STACK` to stalk, e.g. 'math''",
 			},
-			Flags: []cli.Flag{
-				cli.StringFlag{
-					Name: "stack, s",
-					Value: "everywhere",
-					Usage: "Select a `STACK` to stalk, e.g. 'math''",
-				},
-			},
-    	}
+		},
+	}
 }
-
 
 func main() {
 	app := cli.NewApp()
@@ -69,15 +68,15 @@ func main() {
 	// Top level commands are <verbs> e.g. 'query'
 	// Second level commands are <adjectives> e.g. 'new'
 
-	app.Flags = []cli.Flag {
-			cli.StringFlag{
-				Name: "stack, s",
-				Value: "everywhere",
-				Usage: "Select a `STACK` to stalk, e.g. 'math''",
-			},
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:  "stack, s",
+			Value: "everywhere",
+			Usage: "Select a `STACK` to stalk, e.g. 'math''",
+		},
 	}
 
-	app.Commands  = []cli.Command {
+	app.Commands = []cli.Command{
 		cli.Command{
 			Name: "query",
 			Before: func(c *cli.Context) error {
@@ -87,13 +86,13 @@ func main() {
 			Action: func(c *cli.Context) error {
 				query(
 					"query",
-					"" ,
+					"",
 					c.Args().Get(0),
 					c.String("stack"),
-					)
+				)
 				return nil
 			},
-			Subcommands: []cli.Command {
+			Subcommands: []cli.Command{
 				subCommandFactory("relevant"),
 				subCommandFactory("new"),
 				subCommandFactory("active"),

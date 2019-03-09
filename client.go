@@ -8,11 +8,11 @@ import (
 	"strings"
 )
 
-var Stacks  = map[string]string {
-	"math":"math.stackexchange",
-	"physics":"physics.stackexchange",
-	"overflow":"stackoverflow",
-	"software":"software.stackexchange",
+var Stacks = map[string]string{
+	"math":       "math.stackexchange",
+	"physics":    "physics.stackexchange",
+	"overflow":   "stackoverflow",
+	"software":   "software.stackexchange",
 	"everywhere": "stackoverflow",
 }
 
@@ -32,7 +32,7 @@ type Model struct {
 
 type Client struct {
 	Host, BasePath, Protocol, Filter string
-	Model Model
+	Model                            Model
 }
 
 func (c *Client) constructSearchRequest() string {
@@ -54,10 +54,9 @@ func (c *Client) constructSearchRequest() string {
 		"%s://%s/%s/search",
 		c.Protocol, c.Host, c.BasePath)
 
-	url = request+parameters
+	url = request + parameters
 	return url
-	}
-
+}
 
 func (c *Client) GetRequest() {
 	url := c.constructSearchRequest()
