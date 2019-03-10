@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -58,10 +59,9 @@ func (c *Client) constructSearchRequest() string {
 	return url
 }
 
-func (c *Client) GetRequest() {
+func (c *Client) GetSearchRequest() SearchAPIResponse {
 	url := c.constructSearchRequest()
-
-	fmt.Println(url)
+	s := SearchAPIResponse{}
 
 	response, err := http.Get(url)
 	if err != nil {
@@ -74,7 +74,11 @@ func (c *Client) GetRequest() {
 			fmt.Printf("%s", err)
 			os.Exit(1)
 		}
-		fmt.Printf("%s\n", string(contents))
+		parseErr := json.Unmarshal(contents, &s)
+		if parseErr != nil {
+			fmt.Println("whoops:", err)
+		}
+		fmt.Printf("matched: %s \n", s.Items[0].Title)
 	}
-
+	return s
 }

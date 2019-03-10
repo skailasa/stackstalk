@@ -18,7 +18,7 @@ func query(verb, adjective, query, stack string) {
 			c.Model.Stack = stack
 			c.Model.Query = query
 
-			c.GetRequest()
+			c.GetSearchRequest()
 
 		} else {
 			fmt.Println("must select query adjective!")
