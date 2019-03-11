@@ -7,14 +7,23 @@ import (
 	"os"
 )
 
-func query(verb, adjective, query, stack string) {
-	if query != "" {
+// Define CLI API
+var CLIAPI = map[string]string{
+	"relevant": "top",
+	"new":      "new",
+	"active":   "hot",
+	"popular":  "pop",
+}
 
+func query(verb, adjective, query, stack string) {
+	println("here", adjective)
+	if query != "" {
 		if adjective != "" {
 
 			c := StackExchangeClient
 			c.Model.Verb = verb
 			c.Model.Adjective = adjective
+
 			c.Model.Stack = stack
 			c.Model.Query = query
 
@@ -38,16 +47,17 @@ func query(verb, adjective, query, stack string) {
 	}
 }
 
-func subCommandFactory(name string) cli.Command {
+func subCommandFactory(adjective string) cli.Command {
 	return cli.Command{
-		Name: name,
+		Name: CLIAPI[adjective],
 		Action: func(c *cli.Context) error {
 			query(
 				"query",
-				name,
+				adjective,
 				c.Args().Get(0),
 				c.String("stack"),
 			)
+
 			return nil
 		},
 		Flags: []cli.Flag{
