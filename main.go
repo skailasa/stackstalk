@@ -16,7 +16,6 @@ var CLIAPI = map[string]string{
 }
 
 func query(verb, adjective, query, stack string) {
-	println("here", adjective)
 	if query != "" {
 		if adjective != "" {
 
