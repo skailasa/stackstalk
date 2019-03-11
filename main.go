@@ -18,10 +18,19 @@ func query(verb, adjective, query, stack string) {
 			c.Model.Stack = stack
 			c.Model.Query = query
 
-			c.GetSearchRequest()
+			response, _ := c.GetSearchRequest()
+
+			if len(response.Items) == 0 {
+				fmt.Println("No matches found")
+			} else {
+				fmt.Printf(
+					"Matched: %s \n Do you want to browse? (y/n) \n",
+					response.Items[0].Title,
+				)
+			}
 
 		} else {
-			fmt.Println("must select query adjective!")
+			fmt.Println("Must select query adjective!")
 		}
 
 	} else {

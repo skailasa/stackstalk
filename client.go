@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strings"
 )
 
@@ -59,26 +58,23 @@ func (c *Client) constructSearchRequest() string {
 	return url
 }
 
-func (c *Client) GetSearchRequest() SearchAPIResponse {
+func (c *Client) GetSearchRequest() (SearchAPIResponse, error) {
 	url := c.constructSearchRequest()
 	s := SearchAPIResponse{}
 
-	response, err := http.Get(url)
-	if err != nil {
-		fmt.Printf("%s", err)
-		os.Exit(1)
+	response, respErr := http.Get(url)
+	if respErr != nil {
+		return s, respErr
 	} else {
 		defer response.Body.Close()
-		contents, err := ioutil.ReadAll(response.Body)
-		if err != nil {
-			fmt.Printf("%s", err)
-			os.Exit(1)
+		contents, readErr := ioutil.ReadAll(response.Body)
+		if readErr != nil {
+			return s, readErr
 		}
 		parseErr := json.Unmarshal(contents, &s)
 		if parseErr != nil {
-			fmt.Println("whoops:", err)
+			return s, parseErr
 		}
-		fmt.Printf("matched: %s \n", s.Items[0].Title)
+		return s, nil
 	}
-	return s
 }
