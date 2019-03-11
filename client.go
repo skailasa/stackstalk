@@ -12,6 +12,7 @@ var Stacks = map[string]string{
 	"math":       "math.stackexchange",
 	"physics":    "physics.stackexchange",
 	"overflow":   "stackoverflow",
+	"scifi":	  "scifi.stackexchange",
 	"software":   "software.stackexchange",
 	"everywhere": "stackoverflow",
 }

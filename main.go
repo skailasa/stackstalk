@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/urfave/cli"
 	"log"
@@ -15,6 +16,7 @@ var CLIAPI = map[string]string{
 	"popular":  "pop",
 }
 
+// Query interface
 func query(verb, adjective, query, stack string) {
 	if query != "" {
 		if adjective != "" {
@@ -35,6 +37,16 @@ func query(verb, adjective, query, stack string) {
 					"Matched: %s \n Do you want to browse? (y/n) \n",
 					response.Items[0].Title,
 				)
+				// Handle user selection for how to proceed
+				scanner := bufio.NewScanner(os.Stdin)
+				scanner.Scan()
+
+				if scanner.Err() != nil {
+					fmt.Printf("Error in decision: %s", scanner.Err())
+				}
+
+				decision := scanner.Text()
+				fmt.Printf("You selected: %s \n", decision)
 			}
 
 		} else {
