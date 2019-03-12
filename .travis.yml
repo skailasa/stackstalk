@@ -1,0 +1,14 @@
+language: golang
+
+# Turn off emails
+notifications:
+  email: false
+
+golang:
+  - "1.10"
+
+before_install:
+  - go get 	github.com/urfave/cli
+
+script:
+  - go test
