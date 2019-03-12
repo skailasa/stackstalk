@@ -1,4 +1,5 @@
 # Stack Stalk
+[![Build Status](https://travis-ci.org/skailasa/stackstalk.svg?branch=master)](https://travis-ci.org/skailasa/stackstalk)
 
 ## Install
 
