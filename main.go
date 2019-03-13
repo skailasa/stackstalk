@@ -20,13 +20,11 @@ func subCommandFactory(adjective string) cli.Command {
 	return cli.Command{
 		Name: CLIAPI[adjective],
 		Action: func(c *cli.Context) error {
-			Query(
-				"query",
-				adjective,
-				c.Args().Get(0),
-				c.String("stack"),
-			)
-
+			verb := "query"
+			query := c.Args().Get(0)
+			stack := c.String("stack")
+			model := Model{verb, adjective, query, stack}
+			Query(model)
 			return nil
 		},
 		Flags: []cli.Flag{
@@ -72,12 +70,12 @@ func main() {
 				return nil
 			},
 			Action: func(c *cli.Context) error {
-				Query(
-					"query",
-					"",
-					c.Args().Get(0),
-					c.String("stack"),
-				)
+				verb := "query"
+				adjective := "" // none
+				query := c.Args().Get(0)
+				stack := c.String("stack")
+				model := Model{verb, adjective, query, stack}
+				Query(model)
 				return nil
 			},
 			Subcommands: []cli.Command{

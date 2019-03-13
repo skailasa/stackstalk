@@ -7,16 +7,12 @@ import (
 )
 
 // Query
-func Query(verb, adjective, query, stack string) {
-	if query != "" {
-		if adjective != "" {
+func Query(model Model) {
+	if model.Query != "" {
+		if model.Adjective != "" {
 
 			c := StackExchangeClient
-			c.Model.Verb = verb
-			c.Model.Adjective = adjective
-
-			c.Model.Stack = stack
-			c.Model.Query = query
+			c.Model = model
 
 			response, _ := c.GetSearchRequest()
 
