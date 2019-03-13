@@ -16,7 +16,7 @@ var CLIAPI = map[string]string{
 }
 
 
-func subCommandFactory(adjective string) cli.Command {
+func subCommandFactory(client *Client, adjective string) cli.Command {
 	return cli.Command{
 		Name: CLIAPI[adjective],
 		Action: func(c *cli.Context) error {
@@ -24,7 +24,10 @@ func subCommandFactory(adjective string) cli.Command {
 			query := c.Args().Get(0)
 			stack := c.String("stack")
 			model := Model{verb, adjective, query, stack}
-			Query(model)
+
+			// Query server
+			client.Model = model
+			client.Query()
 			return nil
 		},
 		Flags: []cli.Flag{
@@ -36,6 +39,8 @@ func subCommandFactory(adjective string) cli.Command {
 		},
 	}
 }
+
+
 
 func main() {
 	app := cli.NewApp()
@@ -50,6 +55,10 @@ func main() {
 		"   battery and cluttering my browser. So I decided to \n" +
 		"   take a stand on building the command line app I \n" +
 		"   always dreamed of."
+
+
+	// Instatiate client object
+	client := StackExchangeClient
 
 	// Top level commands are <verbs> e.g. 'query'
 	// Second level commands are <adjectives> e.g. 'new'
@@ -70,19 +79,23 @@ func main() {
 				return nil
 			},
 			Action: func(c *cli.Context) error {
+				// Instantiate model
 				verb := "query"
 				adjective := "" // none
 				query := c.Args().Get(0)
 				stack := c.String("stack")
 				model := Model{verb, adjective, query, stack}
-				Query(model)
+
+				// Query server
+				client.Model = model
+				client.Query()
 				return nil
 			},
 			Subcommands: []cli.Command{
-				subCommandFactory("relevant"),
-				subCommandFactory("new"),
-				subCommandFactory("active"),
-				subCommandFactory("popular"),
+				subCommandFactory(&client, "relevant"),
+				subCommandFactory(&client, "new"),
+				subCommandFactory(&client, "active"),
+				subCommandFactory(&client, "popular"),
 			},
 		},
 	}
